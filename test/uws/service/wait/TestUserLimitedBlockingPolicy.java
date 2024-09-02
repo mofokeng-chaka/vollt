@@ -19,19 +19,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -475,10 +464,10 @@ public class TestUserLimitedBlockingPolicy {
 			return null;
 		}
 
-		@Override
-		public String getRealPath(String arg0){
-			return null;
-		}
+//		@Override
+//		public String getRealPath(String arg0){
+//			return null;
+//		}
 
 		@Override
 		public BufferedReader getReader() throws IOException{
@@ -526,12 +515,32 @@ public class TestUserLimitedBlockingPolicy {
 		}
 
 		@Override
+		public String getRequestId() {
+			return "";
+		}
+
+		@Override
+		public String getProtocolRequestId() {
+			return "";
+		}
+
+		@Override
+		public ServletConnection getServletConnection() {
+			return null;
+		}
+
+		@Override
 		public String getContentType(){
 			return null;
 		}
 
 		@Override
 		public int getContentLength(){
+			return 0;
+		}
+
+		@Override
+		public long getContentLengthLong() {
 			return 0;
 		}
 
@@ -571,10 +580,10 @@ public class TestUserLimitedBlockingPolicy {
 			return false;
 		}
 
-		@Override
-		public boolean isRequestedSessionIdFromUrl(){
-			return false;
-		}
+//		@Override
+//		public boolean isRequestedSessionIdFromUrl(){
+//			return false;
+//		}
 
 		@Override
 		public boolean isRequestedSessionIdFromURL(){
@@ -599,6 +608,11 @@ public class TestUserLimitedBlockingPolicy {
 		@Override
 		public HttpSession getSession(){
 			return null;
+		}
+
+		@Override
+		public String changeSessionId() {
+			return "";
 		}
 
 		@Override
@@ -648,6 +662,11 @@ public class TestUserLimitedBlockingPolicy {
 
 		@Override
 		public Part getPart(String arg0) throws IOException, IllegalStateException, ServletException{
+			return null;
+		}
+
+		@Override
+		public <T extends HttpUpgradeHandler> T upgrade(Class<T> aClass) throws IOException, ServletException {
 			return null;
 		}
 

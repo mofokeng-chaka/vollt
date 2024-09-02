@@ -22,10 +22,10 @@ package tap.resource;
 
 import java.io.IOException;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import tap.TAPException;
 
@@ -99,6 +99,6 @@ public interface TAPResource {
 	 * @throws IOException		If any error occurs while writing the result of the given request.
 	 * @throws TAPException		If any other error occurs while interpreting and executing the request or by formating and writing its result.
 	 */
-	public boolean executeResource(HttpServletRequest request, HttpServletResponse response) throws IOException, TAPException;
+    public boolean executeResource(HttpServletRequest request, HttpServletResponse response) throws IOException, TAPException;
 
 }

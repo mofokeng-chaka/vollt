@@ -34,12 +34,14 @@ import uws.service.backup.UWSBackupManager;
 import uws.service.log.UWSLog;
 import uws.service.log.UWSLog.LogLevel;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -177,10 +179,11 @@ public class ASync implements TAPResource {
 			final String strBaseUrl = service.getBaseUrl().toString().replaceAll("/+$", "");
 			// ...create and set the URL interpreter with the given root URL:
 			try {
-				final UWSUrl urlInterpreter = new UWSUrl(new URL(strBaseUrl));
+				URI uri = new URI(strBaseUrl);
+				final UWSUrl urlInterpreter = new UWSUrl(uri.toURL());
 				// ...set this URL interpreter into the UWS service:
 				uws.setUrlInterpreter(urlInterpreter);
-			} catch (MalformedURLException mue) {
+			} catch (MalformedURLException | URISyntaxException mue) {
 				service.getLogger().logUWS(LogLevel.ERROR, null, "ASYNC_INIT", "Root URL ignored! Cause: not a valid URL ("+mue.getMessage()+").", null);
 			}
 		}

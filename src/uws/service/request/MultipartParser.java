@@ -28,13 +28,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.util.Streams;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory.Builder;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
+import org.apache.commons.fileupload2.jakarta.JakartaServletRequestContext;
+import org.apache.commons.lang3.stream.Streams;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
@@ -135,7 +137,7 @@ public class MultipartParser implements RequestParser {
 
 	/** Tool to parse Multipart HTTP request and fetch files when necessary.
 	 * @since 4.4 */
-	protected final ServletFileUpload fileUpload;
+	protected final JakartaServletFileUpload fileUpload;
 
 	/**
 	 * Build a {@link MultipartParser} forbidding uploads (i.e. inline files).
@@ -211,17 +213,19 @@ public class MultipartParser implements RequestParser {
 		this.fileManager = fileManager;
 
 		// Create a factory for disk-based file items:
-		DiskFileItemFactory factory = new DiskFileItemFactory();
+		DiskFileItemFactory factory = new Builder()
+				.setPath(String.valueOf(fileManager.getTmpDirectory()))
+				.setBufferSize(SIZE_BEFORE_DISK_STORAGE).get();
 
 		// Configure a repository:
-		factory.setRepository(fileManager.getTmpDirectory());
+//		factory.setRepository(fileManager.getTmpDirectory());
 
 		/* Set the maximum size of an in-memory file before being stored on the
 		 * disk: */
-		factory.setSizeThreshold(SIZE_BEFORE_DISK_STORAGE);
+//		factory.setSizeThreshold(SIZE_BEFORE_DISK_STORAGE);
 
 		// Create a new file upload handler:
-		fileUpload = new ServletFileUpload(factory);
+		fileUpload = new JakartaServletFileUpload(factory);
 
 		// Set the maximum size for each single file:
 		fileUpload.setFileSizeMax(maxFileSize);
@@ -284,12 +288,12 @@ public class MultipartParser implements RequestParser {
 		LinkedHashMap<String, Object> parameters = new LinkedHashMap<String, Object>();
 
 		try{
-			List<FileItem> fileItems = fileUpload.parseRequest(request);
+			List<FileItem> fileItems = fileUpload.parseRequest(new JakartaServletRequestContext(request));
 			for(FileItem item : fileItems){
 				String name = item.getFieldName();
 				InputStream stream = item.getInputStream();
 				if (item.isFormField())
-					consumeParameter(name, Streams.asString(stream), parameters);
+					consumeParameter(name, Streams.of(stream), parameters);
 				else{
 					if (!allowUpload)
 						throw new UWSException(UWSException.BAD_REQUEST, "Uploads are not allowed by this service!");
@@ -394,7 +398,7 @@ public class MultipartParser implements RequestParser {
 	 *        	<code>false</code> otherwise.
 	 */
 	public static final boolean isMultipartContent(final HttpServletRequest request){
-		return ServletFileUpload.isMultipartContent(request);
+		return JakartaServletFileUpload.isMultipartContent(request);
 	}
 
 }

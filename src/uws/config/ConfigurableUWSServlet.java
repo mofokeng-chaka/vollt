@@ -60,19 +60,16 @@ import static uws.config.UWSConfiguration.hasConstructor;
 import static uws.config.UWSConfiguration.isClassName;
 import static uws.config.UWSConfiguration.newInstance;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import uws.UWSException;
 import uws.job.JobList;
@@ -114,6 +111,7 @@ import uws.service.log.UWSLog.LogLevel;
  * @since 4.2
  */
 public class ConfigurableUWSServlet extends HttpServlet {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** UWS object representing the UWS service. */

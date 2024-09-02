@@ -120,7 +120,7 @@ public class DefaultTAPBackupManager extends DefaultUWSBackupManager {
 			else if (val.getClass().isArray()) {
 				JSONArray array = new JSONArray();
 				for(Object o : (Object[])val) {
-					if (o != null && o instanceof DALIUpload)
+					if (o instanceof DALIUpload)
 						array.put(getDALIUploadJson((DALIUpload)o));
 					else if (o != null)
 						array.put(o.toString());
@@ -160,7 +160,7 @@ public class DefaultTAPBackupManager extends DefaultUWSBackupManager {
 		jsonJob.put("uwsUploads", uploads);
 
 		// Add the job owner:
-		jsonJob.put(UWSJob.PARAM_OWNER, (job != null && job.getOwner() != null) ? job.getOwner().getID() : null);
+		jsonJob.put(UWSJob.PARAM_OWNER, job.getOwner() != null ? job.getOwner().getID() : null);
 
 		// Add the name of the job list owning the given job:
 		jsonJob.put("jobListName", jlName);
@@ -192,7 +192,7 @@ public class DefaultTAPBackupManager extends DefaultUWSBackupManager {
 	@Override
 	protected void restoreOtherJobParams(JSONObject json, UWSJob job) throws UWSException {
 		// 0. Nothing to do in this function if the job is missing OR if it is not an instance of TAPJob:
-		if (job == null || !(job instanceof TAPJob))
+		if (!(job instanceof TAPJob))
 			return;
 
 		// 1. Build correctly the TAP UPLOAD parameter (the value of this parameter should be an array of DALIUpload):
@@ -206,7 +206,7 @@ public class DefaultTAPBackupManager extends DefaultUWSBackupManager {
 					JSONArray uploads = params.getJSONArray(TAPJob.PARAM_UPLOAD);
 					// for each item of this array, build the corresponding DALIUpload and add it into an ArrayList:
 					DALIUpload upl;
-					ArrayList<DALIUpload> lstTAPUploads = new ArrayList<DALIUpload>();
+					ArrayList<DALIUpload> lstTAPUploads = new ArrayList<>();
 					for(int i = 0; i < uploads.length(); i++) {
 						try {
 							upl = getDALIUpload(uploads.getJSONObject(i), job);
@@ -219,7 +219,7 @@ public class DefaultTAPBackupManager extends DefaultUWSBackupManager {
 					// finally convert the ArrayList into a DALIUpload[] and add it inside the parameters list of the job:
 					job.addOrUpdateParameter(TAPJob.PARAM_UPLOAD, lstTAPUploads.toArray(new DALIUpload[lstTAPUploads.size()]));
 				}
-			} catch(JSONException ex) {
+			} catch(JSONException ignored) {
 			}
 		}
 
@@ -278,7 +278,7 @@ public class DefaultTAPBackupManager extends DefaultUWSBackupManager {
 			 * being an UploadFile. If so, get it and use it to build the DALIUpload: */
 			if (item.has("file")) {
 				Object f = job.getAdditionalParameterValue(item.getString("file"));
-				if (f == null || !(f instanceof UploadFile))
+				if (!(f instanceof UploadFile))
 					getLogger().logUWS(LogLevel.ERROR, item, "RESTORATION", "Incorrect JSON format for the DALIUpload labelled \"" + label + "\" of the job \"" + job.getJobId() + "\": \"" + item.getString("file") + "\" is not pointing a job parameter representing a file!", null);
 				else
 					return new DALIUpload(label, (UploadFile)f);

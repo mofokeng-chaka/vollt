@@ -23,7 +23,7 @@ package tap;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import adql.parser.ADQLParser;
 import adql.parser.ADQLQueryFactory;
@@ -361,7 +361,7 @@ public class ADQLExecutor {
 			// 2. PARSE THE ADQL QUERY:
 			startStep(ExecutionProgression.PARSING);
 			// Parse the query:
-			ADQLQuery adqlQuery = null;
+			ADQLQuery adqlQuery;
 			try {
 				adqlQuery = parseADQL();
 			} catch(ParseException pe) {
@@ -497,7 +497,7 @@ public class ADQLExecutor {
 	 * @throws TAPException	If any error occurs while reading the uploaded table
 	 *                     	or while importing them in the database.
 	 */
-	private final void uploadTables() throws TAPException {
+	private void uploadTables() throws TAPException {
 		// Fetch the tables to upload:
 		DALIUpload[] tables = tapParams.getUploadedTables();
 
@@ -551,7 +551,7 @@ public class ADQLExecutor {
 			parser.setQueryChecker(service.getFactory().createQueryChecker(uploadSchema));
 
 		// Parse the ADQL query:
-		ADQLQuery query = null;
+		ADQLQuery query;
 		// if the fixOnFail option is enabled...
 		if (service.fixOnFailEnabled()) {
 			try {

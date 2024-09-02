@@ -20,8 +20,8 @@ package uws.service.log;
  *                       Astronomisches Rechen Institut (ARI)
  */
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -49,7 +49,7 @@ public interface UWSLog {
 	 * @version 4.1 (09/2014)
 	 * @since 4.1
 	 */
-	public static enum LogLevel {
+    enum LogLevel {
 		DEBUG, INFO, WARNING, ERROR, FATAL;
 	}
 
@@ -65,7 +65,7 @@ public interface UWSLog {
 	 *
 	 * @since 4.3.
 	 */
-	public String getConfigString();
+    String getConfigString();
 
 	/* *********************** */
 	/* GENERAL LOGGING METHODS */
@@ -91,7 +91,7 @@ public interface UWSLog {
 	 *
 	 * @since 4.1
 	 */
-	public void log(final LogLevel level, final String context, final String message, final Throwable error);
+    void log(final LogLevel level, final String context, final String message, final Throwable error);
 
 	/**
 	 * Logs a debug message.
@@ -103,7 +103,7 @@ public interface UWSLog {
 	 *
 	 * @param msg	A DEBUG message.
 	 */
-	public void debug(final String msg);
+    void debug(final String msg);
 
 	/**
 	 * Logs an exception as a debug message.
@@ -115,7 +115,7 @@ public interface UWSLog {
 	 *
 	 * @param t	An exception.
 	 */
-	public void debug(final Throwable t);
+    void debug(final Throwable t);
 
 	/**
 	 * Logs a full (message+exception) debug message.
@@ -128,7 +128,7 @@ public interface UWSLog {
 	 * @param msg	A DEBUG message.
 	 * @param t		An exception.
 	 */
-	public void debug(final String msg, final Throwable t);
+    void debug(final String msg, final Throwable t);
 
 	/**
 	 * Logs the given information.
@@ -140,7 +140,7 @@ public interface UWSLog {
 	 *
 	 * @param msg	An INFO message.
 	 */
-	public void info(final String msg);
+    void info(final String msg);
 
 	/**
 	 * Logs the given warning.
@@ -152,7 +152,7 @@ public interface UWSLog {
 	 *
 	 * @param msg	A WARNING message.
 	 */
-	public void warning(final String msg);
+    void warning(final String msg);
 
 	/**
 	 * Logs the given error.
@@ -164,7 +164,7 @@ public interface UWSLog {
 	 *
 	 * @param msg	An ERROR message.
 	 */
-	public void error(final String msg);
+    void error(final String msg);
 
 	/**
 	 * Logs the given exception as an error.
@@ -176,7 +176,7 @@ public interface UWSLog {
 	 *
 	 * @param t	An exception.
 	 */
-	public void error(final Throwable t);
+    void error(final Throwable t);
 
 	/**
 	 * Logs a full (message+exception) error message.
@@ -189,7 +189,7 @@ public interface UWSLog {
 	 * @param msg	An ERROR message.
 	 * @param t		An exception.
 	 */
-	public void error(final String msg, final Throwable t);
+    void error(final String msg, final Throwable t);
 
 	/* ****************** */
 	/* SPECIFIC FUNCTIONS */
@@ -242,7 +242,7 @@ public interface UWSLog {
 	 *
 	 * @since 4.1
 	 */
-	public void logUWS(final LogLevel level, final Object obj, final String event, final String message, final Throwable error);
+    void logUWS(final LogLevel level, final Object obj, final String event, final String message, final Throwable error);
 
 	/**
 	 * Log a message and/or an error in the HTTP context.
@@ -270,7 +270,7 @@ public interface UWSLog {
 	 *
 	 * @since 4.1
 	 */
-	public void logHttp(final LogLevel level, final HttpServletRequest request, final String requestId, final String message, final Throwable error);
+    void logHttp(final LogLevel level, final HttpServletRequest request, final String requestId, final String message, final Throwable error);
 
 	/**
 	 * Log a message and/or an error in the HTTP context.
@@ -300,7 +300,7 @@ public interface UWSLog {
 	 *
 	 * @since 4.1
 	 */
-	public void logHttp(final LogLevel level, final HttpServletResponse response, final String requestId, final JobOwner user, final String message, final Throwable error);
+    void logHttp(final LogLevel level, final HttpServletResponse response, final String requestId, final JobOwner user, final String message, final Throwable error);
 
 	/**
 	 * Log a message and/or an error in the JOB context.
@@ -337,7 +337,7 @@ public interface UWSLog {
 	 *
 	 * @since 4.1
 	 */
-	public void logJob(final LogLevel level, final UWSJob job, final String event, final String message, final Throwable error);
+    void logJob(final LogLevel level, final UWSJob job, final String event, final String message, final Throwable error);
 
 	/**
 	 * <p>Log a message and/or an error in the THREAD context.</p>
@@ -361,6 +361,6 @@ public interface UWSLog {
 	 *
 	 * @since 4.1
 	 */
-	public void logThread(final LogLevel level, final Thread thread, final String event, final String message, final Throwable error);
+    void logThread(final LogLevel level, final Thread thread, final String event, final String message, final Throwable error);
 
 }

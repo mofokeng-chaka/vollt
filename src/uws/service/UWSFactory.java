@@ -23,7 +23,7 @@ package uws.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import uws.UWSException;
 import uws.job.ErrorSummary;
@@ -55,7 +55,7 @@ public interface UWSFactory {
 	 *
 	 * @throws UWSException	If there is an error while creating the job.
 	 */
-	public UWSJob createJob(final HttpServletRequest request, final JobOwner user) throws UWSException;
+    UWSJob createJob(final HttpServletRequest request, final JobOwner user) throws UWSException;
 
 	/**
 	 * <p>Creates a UWS job with the following attributes.</p>
@@ -88,7 +88,7 @@ public interface UWSFactory {
 	 *
 	 * @since 4.3
 	 */
-	public UWSJob createJob(final String jobID, final long creationTime, final JobOwner owner, final UWSParameters params, final long quote, final long startTime, final long endTime, final List<Result> results, final ErrorSummary error) throws UWSException;
+    UWSJob createJob(final String jobID, final long creationTime, final JobOwner owner, final UWSParameters params, final long quote, final long startTime, final long endTime, final List<Result> results, final ErrorSummary error) throws UWSException;
 
 	/**
 	 * Creates the thread which will executes the task described by the given {@link UWSJob} instance.
@@ -99,7 +99,7 @@ public interface UWSFactory {
 	 *
 	 * @throws UWSException		If there is an error while creating the job task.
 	 */
-	public JobThread createJobThread(final UWSJob jobDescription) throws UWSException;
+    JobThread createJobThread(final UWSJob jobDescription) throws UWSException;
 
 	/**
 	 * Lets extracting all parameters from the given request.
@@ -110,7 +110,7 @@ public interface UWSFactory {
 	 *
 	 * @throws UWSException	If an error occurs while extracting parameters.
 	 */
-	public UWSParameters createUWSParameters(final HttpServletRequest request) throws UWSException;
+    UWSParameters createUWSParameters(final HttpServletRequest request) throws UWSException;
 
 	/**
 	 * Lets extracting all parameters from the given map.
@@ -121,7 +121,7 @@ public interface UWSFactory {
 	 *
 	 * @throws UWSException	If an error occurs while extracting parameters.
 	 */
-	public UWSParameters createUWSParameters(final Map<String,Object> params) throws UWSException;
+    UWSParameters createUWSParameters(final Map<String, Object> params) throws UWSException;
 
 	/**
 	 * Create a parser of HTTP requests. This object is able to deal with the different formats
@@ -135,6 +135,6 @@ public interface UWSFactory {
 	 *
 	 * @since 4.1
 	 */
-	public RequestParser createRequestParser(final UWSFileManager manager) throws UWSException;
+    RequestParser createRequestParser(final UWSFileManager manager) throws UWSException;
 
 }

@@ -20,6 +20,7 @@ package tap;
  *                       Astronomisches Rechen Institut (ARI)
  */
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +52,7 @@ import uws.service.log.UWSLog.LogLevel;
  * @version 2.2 (09/2017)
  */
 public class TAPJob extends UWSJob {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** Name of the standard TAP parameter which specifies the type of request

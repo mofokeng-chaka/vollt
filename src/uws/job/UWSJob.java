@@ -21,6 +21,7 @@ package uws.job;
  */
 
 import java.io.IOException;
+import java.io.Serial;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,7 +32,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import javax.servlet.ServletOutputStream;
+import jakarta.servlet.ServletOutputStream;
 
 import uws.ISO8601Format;
 import uws.UWSException;
@@ -133,6 +134,7 @@ import uws.service.request.UploadFile;
  * @version	4.5 (07/2020)
  */
 public class UWSJob extends SerializableUWSObject {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/* ********* */

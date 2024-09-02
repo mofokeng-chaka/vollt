@@ -9,19 +9,8 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -118,12 +107,32 @@ public class TestUWSUrl {
 		}
 
 		@Override
+		public long getContentLengthLong() {
+			return 0;
+		}
+
+		@Override
 		public String getContentType(){
 			return null;
 		}
 
 		@Override
 		public DispatcherType getDispatcherType(){
+			return null;
+		}
+
+		@Override
+		public String getRequestId() {
+			return "";
+		}
+
+		@Override
+		public String getProtocolRequestId() {
+			return "";
+		}
+
+		@Override
+		public ServletConnection getServletConnection() {
 			return null;
 		}
 
@@ -187,10 +196,10 @@ public class TestUWSUrl {
 			return null;
 		}
 
-		@Override
-		public String getRealPath(String arg0){
-			return null;
-		}
+//		@Override
+//		public String getRealPath(String arg0){
+//			return null;
+//		}
 
 		@Override
 		public String getRemoteAddr(){
@@ -308,6 +317,11 @@ public class TestUWSUrl {
 		}
 
 		@Override
+		public <T extends HttpUpgradeHandler> T upgrade(Class<T> aClass) throws IOException, ServletException {
+			return null;
+		}
+
+		@Override
 		public Collection<Part> getParts() throws IOException, IllegalStateException, ServletException{
 			return null;
 		}
@@ -338,6 +352,11 @@ public class TestUWSUrl {
 		}
 
 		@Override
+		public String changeSessionId() {
+			return "";
+		}
+
+		@Override
 		public HttpSession getSession(boolean arg0){
 			return null;
 		}
@@ -357,10 +376,10 @@ public class TestUWSUrl {
 			return false;
 		}
 
-		@Override
-		public boolean isRequestedSessionIdFromUrl(){
-			return false;
-		}
+//		@Override
+//		public boolean isRequestedSessionIdFromUrl(){
+//			return false;
+//		}
 
 		@Override
 		public boolean isRequestedSessionIdValid(){

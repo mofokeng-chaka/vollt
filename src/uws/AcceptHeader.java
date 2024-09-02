@@ -42,7 +42,7 @@ public class AcceptHeader {
 	private Map<String, Float> mMimeTypes;
 
 	/** Association between a quality and a list of MIME types. */
-	private Map<Float, List<String>> mSortedMimeTypes;
+	private final Map<Float, List<String>> mSortedMimeTypes;
 
 	/**
 	 * Parses the given value of the Accept field of HTTP request header.
@@ -50,12 +50,12 @@ public class AcceptHeader {
 	 * @param acceptS	The list of MIME types to parse.
 	 */
 	public AcceptHeader(String acceptS){
-		mMimeTypes = new HashMap<String, Float>();
+		mMimeTypes = new HashMap<>();
 		// List of MIME-types
 		String[] mimeTypes = acceptS.split(",");
-		for(String mimeType : Arrays.asList(mimeTypes)){
+		for(String mimeType : mimeTypes){
 			// Get quality
-			Float quality = new Float(1);
+			float quality = 1F;
 			String[] split = mimeType.split(";");
 			if (split.length > 1){
 				if (split[1].matches("q=[0-9.]+")){
@@ -70,11 +70,11 @@ public class AcceptHeader {
 			mMimeTypes.put(split[0], quality);
 		}
 		// Sort mimeTypes by requested quality
-		mSortedMimeTypes = new HashMap<Float, List<String>>();
+		mSortedMimeTypes = new HashMap<>();
 		Set<Entry<String, Float>> mimeTypesES = mMimeTypes.entrySet();
 		for(Entry<String, Float> mimeType : mimeTypesES){
 			if (!mSortedMimeTypes.containsKey(mimeType.getValue())){
-				List<String> mimeTypesL = new ArrayList<String>();
+				List<String> mimeTypesL = new ArrayList<>();
 				mimeTypesL.add(mimeType.getKey());
 				mSortedMimeTypes.put(mimeType.getValue(), mimeTypesL);
 			}else{
@@ -109,13 +109,13 @@ public class AcceptHeader {
 	 * 			or <i>* /*</i>.
 	 */
 	public String getPreferredMimeType(){
-		if (mSortedMimeTypes.size() == 0){
+		if (mSortedMimeTypes.isEmpty()){
 			return "*/*";
 		}
 		Float[] qualities = mSortedMimeTypes.keySet().toArray(new Float[0]);
 		Arrays.sort(qualities, Collections.reverseOrder());
 		String choosenMimeType = null;
-		for(Float key : Arrays.asList(qualities)){
+		for(Float key : qualities){
 			List<String> mimeTypes = mSortedMimeTypes.get(key);
 			String htmlMimeType = null;
 			for(String mimeType : mimeTypes){
@@ -146,9 +146,9 @@ public class AcceptHeader {
 		Float[] qualities = mSortedMimeTypes.keySet().toArray(new Float[0]);
 		Arrays.sort(qualities, Collections.reverseOrder());
 
-		ArrayList<String> orderedMimeTypes = new ArrayList<String>();
-		for(int i = 0; i < qualities.length; i++){
-			List<String> mimeTypes = mSortedMimeTypes.get(qualities[i]);
+		ArrayList<String> orderedMimeTypes = new ArrayList<>();
+		for (Float quality : qualities) {
+			List<String> mimeTypes = mSortedMimeTypes.get(quality);
 			if (mimeTypes != null)
 				orderedMimeTypes.addAll(mimeTypes);
 		}

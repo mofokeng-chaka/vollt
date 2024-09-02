@@ -31,17 +31,14 @@ import static tap.config.TAPConfiguration.getProperty;
 import static tap.config.TAPConfiguration.isClassName;
 import static tap.config.TAPConfiguration.newInstance;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import tap.ServiceConnection;
 import tap.TAPException;
@@ -64,6 +61,7 @@ import tap.resource.TAPResource;
  * @since 2.0
  */
 public class ConfigurableTAPServlet extends HttpServlet {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** TAP object representing the TAP service. */
@@ -77,12 +75,12 @@ public class ConfigurableTAPServlet extends HttpServlet {
 
 		/* 1. GET THE FILE PATH OF THE TAP CONFIGURATION FILE */
 		String tapConfPath = config.getInitParameter(TAP_CONF_PARAMETER);
-		if (tapConfPath == null || tapConfPath.trim().length() == 0)
+		if (tapConfPath == null || tapConfPath.trim().isEmpty())
 			tapConfPath = null;
 		//throw new ServletException("Configuration file path missing! You must set a servlet init parameter whose the name is \"" + TAP_CONF_PARAMETER + "\".");
 
 		/* 2. OPEN THE CONFIGURATION FILE */
-		InputStream input = null;
+		InputStream input;
 		// CASE: No file specified => search in the classpath for a file having the default name "tap.properties".
 		if (tapConfPath == null)
 			input = searchFile(DEFAULT_TAP_CONF_FILE, config);
@@ -113,11 +111,11 @@ public class ConfigurableTAPServlet extends HttpServlet {
 		}finally{
 			try{
 				input.close();
-			}catch(IOException ioe2){}
+			}catch(IOException ignored){}
 		}
 
 		/* 4. CREATE THE TAP SERVICE */
-		ServiceConnection serviceConn = null;
+		ServiceConnection serviceConn;
 		try{
 			// Create the service connection:
 			serviceConn = new ConfigurableServiceConnection(tapConf, config.getServletContext().getRealPath(""));
@@ -169,11 +167,11 @@ public class ConfigurableTAPServlet extends HttpServlet {
 			for(String addRes : lstResources){
 				addRes = addRes.trim();
 				// ignore empty items:
-				if (addRes.length() > 0){
+				if (!addRes.isEmpty()){
 					try{
 						// create an instance of the resource:
 						TAPResource newRes = newInstance(addRes, KEY_ADD_TAP_RESOURCES, TAPResource.class, new Class<?>[]{TAP.class}, new Object[]{tap});
-						if (newRes.getName() == null || newRes.getName().trim().length() == 0)
+						if (newRes.getName() == null || newRes.getName().trim().isEmpty())
 							throw new TAPException("TAP resource name missing for the new resource \"" + addRes + "\"! The function getName() of the new TAPResource must return a non-empty and not NULL name. See the property \"" + KEY_ADD_TAP_RESOURCES + "\".");
 						// add it into TAP:
 						tap.addResource(newRes);
@@ -205,7 +203,7 @@ public class ConfigurableTAPServlet extends HttpServlet {
 	 * @since 2.0
 	 */
 	protected final InputStream searchFile(String filePath, final ServletConfig config){
-		InputStream input = null;
+		InputStream input;
 
 		// Try to search in the classpath (with just a file name or a relative path):
 		input = Thread.currentThread().getContextClassLoader().getResourceAsStream(filePath);

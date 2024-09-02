@@ -21,9 +21,10 @@ package uws.service.actions;
  */
 
 import java.io.IOException;
+import java.io.Serial;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import uws.UWSException;
 import uws.UWSExceptionFactory;
@@ -46,6 +47,7 @@ import uws.service.log.UWSLog.LogLevel;
  * @version 4.5 (07/2020)
  */
 public class AddJob extends UWSAction {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	public AddJob(UWSService u) {
