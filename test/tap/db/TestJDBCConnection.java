@@ -136,9 +136,6 @@ public class TestJDBCConnection {
 				}
 
 				/* CUSTOM DEFINITION */
-				// Prepare the test:
-				if (cnt == -1)
-					dropSchema(STDSchema.TAPSCHEMA.label, conn);
 				// Do the test:
 				try{
 					TAPMetadata meta = createCustomSchema();
@@ -681,7 +678,7 @@ public class TestJDBCConnection {
 				for(String t : tablesToDrop)
 					stmt.executeUpdate("DROP TABLE IF EXISTS \"" + t + "\";");
 				// finally drop the schema itself:
-				stmt.executeUpdate("DROP SCHEMA IF EXISTS " + formatIdentifier(schemaName, true) + ";");
+				stmt.executeUpdate("DROP SCHEMA IF EXISTS " + formatIdentifier(schemaName, true) + "CASCADE;");
 				commit(conn);
 			}else{
 				startTransaction(conn);

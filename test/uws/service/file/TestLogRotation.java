@@ -262,7 +262,7 @@ public class TestLogRotation {
 			int nbLines = 0;
 			while(input.readLine() != null)
 				nbLines++;
-			nbLines -= 3; // deduce the number of 3 header lines
+			nbLines -= 2; // deduce the number of 2 header lines
 			assertEquals(nbExpectedMessages, nbLines);
 
 			// Delete log file if no error:

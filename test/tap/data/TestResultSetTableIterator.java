@@ -151,9 +151,9 @@ public class TestResultSetTableIterator {
 			cal.set(2017, GregorianCalendar.FEBRUARY, 1, 15, 13, 56); // 1st Feb. 2017 - 15:13:56 CET
 
 			// Try to format it from a java.SQL.Timestamp into a ISO8601 date-time:
-			assertEquals("2017-02-01T14:13:56Z", rsit.formatColValue(new java.sql.Timestamp(cal.getTimeInMillis())));
+			assertEquals("2017-02-01T13:13:56Z", rsit.formatColValue(new java.sql.Timestamp(cal.getTimeInMillis())));
 			// Try to format it from a java.UTIL.Date into an ISO8601 date-time:
-			assertEquals("2017-02-01T14:13:56Z", rsit.formatColValue(cal.getTime()));
+			assertEquals("2017-02-01T13:13:56Z", rsit.formatColValue(cal.getTime()));
 
 			// Try to format it from a java.SQL.Date into a simple date (no time indication):
 			assertEquals("2017-02-01", rsit.formatColValue(new java.sql.Date(cal.getTimeInMillis())));
@@ -230,9 +230,11 @@ public class TestResultSetTableIterator {
 			// Check that the first column is a BIGINT:
 			assertEquals(DBType.DBDatatype.BIGINT, cols[0].getDatatype().type);
 
-			// Check that the two next columns are REAL:
-			for(int i = 1; i < 3; i++)
-				assertEquals(DBType.DBDatatype.REAL, cols[i].getDatatype().type);
+			// Check that the second column is a REAL:
+			assertEquals(DBType.DBDatatype.REAL, cols[1].getDatatype().type);
+
+			// Check that the third column is a DOUBLE:
+			assertEquals(DBType.DBDatatype.DOUBLE, cols[2].getDatatype().type);
 
 		}catch(Exception ex){
 			ex.printStackTrace(System.err);
