@@ -391,7 +391,7 @@ public class TestConfigurableServiceConnection {
 	 *
 	 * Note: the good configuration of the TAPFactory built by the DefaultServiceConnection is tested in {@link TestConfigurableTAPFactory}.
 	 *
-	 * @see ConfigurableServiceConnection#DefaultServiceConnection(Properties)
+	 * @see ConfigurableServiceConnection(Properties)
 	 */
 	@Test
 	public void testDefaultServiceConnectionProperties() {
